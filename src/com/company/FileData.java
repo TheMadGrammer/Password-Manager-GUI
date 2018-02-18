@@ -5,9 +5,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+//import javax.swing.*;
 
 public class FileData {
-	
+
 	public static void readFile() {
 		File f = new File("savefile.txt");
 		String fileName = "/Password Manager Java 2.0/savefile.txt";

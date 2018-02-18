@@ -1,15 +1,67 @@
 package com.company;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 
-public class Main {
+public class Main extends JFrame{
 
+    int screenWidth = 500;
+    int screenHeight = 500;
+
+    int buttonWidth = 100;
+    int buttonHeight = 50;
+
+    public Button helloworld;
+    public JLabel hello;
     static String[][] database = new String[100][4];    //This is the array that stores the info until quit
     public static String string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*?-_+=~`<>,./ ";    //set string for the alphabet for encryption
     public static char[] alphabet = string.toCharArray();
     static File f = new File("savefile.txt");   //make the file object
     public static String path = f.getAbsolutePath();    //get file path (for use on different machines)
     public static char[] password;
+
+    public Main() {
+
+        addButtons();
+        addActions();
+
+        getContentPane().setLayout(null);
+
+        helloworld.setBounds(screenWidth - buttonWidth - 250 + buttonWidth, screenWidth/2, buttonWidth, buttonHeight);
+        hello.setBounds(230, screenHeight /2 - 40, buttonWidth, buttonHeight);
+
+        getContentPane().add(helloworld);
+        getContentPane().add(hello);
+
+        pack();
+        setVisible(true);
+        setLocationRelativeTo(null);
+        setSize(screenWidth, screenHeight);
+        setTitle("PassMan");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+
+    }
+
+    public void addButtons() {
+
+        helloworld = new Button("Play");
+        hello = new JLabel("Hello World!");
+
+    }
+
+    public void addActions() {
+        helloworld.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                getContentPane().add(hello);
+            }
+        });
+
+    }
 
     public void addAccount () {
 
@@ -98,7 +150,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-
+        new Main();
 
     }
 }
