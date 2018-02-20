@@ -4,7 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Main extends JFrame{
 
@@ -14,9 +17,8 @@ public class Main extends JFrame{
     int buttonWidth = 100;
     int buttonHeight = 50;
 
-    public Button helloworld;
-    public JLabel hello;
-    static String[][] database = new String[100][4];    //This is the array that stores the info until quit
+    public Button addaccounts;
+    public static String[][] database = new String[100][4];    //This is the array that stores the info until quit
     public static String string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*?-_+=~`<>,./ ";    //set string for the alphabet for encryption
     public static char[] alphabet = string.toCharArray();
     static File f = new File("savefile.txt");   //make the file object
@@ -30,10 +32,9 @@ public class Main extends JFrame{
 
         getContentPane().setLayout(null);
 
-        helloworld.setBounds(screenWidth - buttonWidth - 250 + buttonWidth, screenWidth / 2, buttonWidth, buttonHeight);
-        hello.setBounds(230, screenHeight / 2 - 40, buttonWidth, buttonHeight);
+        addaccounts.setBounds(screenWidth - buttonWidth - 250 + buttonWidth, screenWidth / 2, buttonWidth, buttonHeight);
 
-        getContentPane().add(helloworld);
+        getContentPane().add(addaccounts);
         //getContentPane().add(hello);
 
         reload();
@@ -41,8 +42,7 @@ public class Main extends JFrame{
 
     }
 
-    public void reload() {
-        addActions();
+   private void reload() {
 
         pack();
         //setVisible(true);
@@ -56,20 +56,17 @@ public class Main extends JFrame{
 
     public void addButtons() {
 
-        helloworld = new Button("Play");
-        hello = new JLabel("Hello World!");
+        addaccounts = new Button("Add an Account");
+        //hello = new JLabel("Hello World!");
 
     }
 
     public void addActions() {
-        helloworld.addActionListener(new ActionListener() {
+        addaccounts.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                System.out.println("Hello");
-                getContentPane().add(hello);
+                new AddAccount();
                 reload();
-
             }
         });
 
@@ -91,7 +88,21 @@ public class Main extends JFrame{
 
     }
 
-    public void write() {
+    public static void write() throws IOException {
+
+        FileWriter file = new FileWriter(path);
+        BufferedWriter writer = new BufferedWriter(file);
+        writer.write("");
+        for (int i = 0; i < database.length; i++) {
+            if (database[i][0] != null) {
+                //caesarEncrypt();
+                writer.append(caesarEncrypt(password, database[i][0].toCharArray()) + "\n");
+                writer.append(caesarEncrypt(password, database[i][1].toCharArray()) + "\n");
+                writer.append(caesarEncrypt(password, database[i][2].toCharArray()) + "\n");
+            }
+        }
+        writer.close();
+        file.close();
 
     }
 
@@ -162,7 +173,15 @@ public class Main extends JFrame{
 
     public static void main(String[] args) {
 
-        new Main();
+       new Main();
+
+        try {
+            write();
+        } catch (IOException io) {
+
+        }
+
+
 
     }
 }
