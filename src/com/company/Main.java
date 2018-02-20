@@ -30,14 +30,22 @@ public class Main extends JFrame{
 
         getContentPane().setLayout(null);
 
-        helloworld.setBounds(screenWidth - buttonWidth - 250 + buttonWidth, screenWidth/2, buttonWidth, buttonHeight);
-        hello.setBounds(230, screenHeight /2 - 40, buttonWidth, buttonHeight);
+        helloworld.setBounds(screenWidth - buttonWidth - 250 + buttonWidth, screenWidth / 2, buttonWidth, buttonHeight);
+        hello.setBounds(230, screenHeight / 2 - 40, buttonWidth, buttonHeight);
 
         getContentPane().add(helloworld);
-        getContentPane().add(hello);
+        //getContentPane().add(hello);
+
+        reload();
+        setVisible(true);
+
+    }
+
+    public void reload() {
+        addActions();
 
         pack();
-        setVisible(true);
+        //setVisible(true);
         setLocationRelativeTo(null);
         setSize(screenWidth, screenHeight);
         setTitle("PassMan");
@@ -57,7 +65,11 @@ public class Main extends JFrame{
         helloworld.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+                System.out.println("Hello");
                 getContentPane().add(hello);
+                reload();
+
             }
         });
 
@@ -117,7 +129,7 @@ public class Main extends JFrame{
         return alphabet[location];
     }
 
-    static String caesarEncrypt(char[] password, char[] phrase) {
+    public static String caesarEncrypt(char[] password, char[] phrase) {
         int key = 0;
         String encrypted = "";
         for (int i = 0; i < password.length; i++) {
