@@ -11,13 +11,13 @@ import java.io.IOException;
 
 public class Main extends JFrame{
 
-    int screenWidth = 500;
+    int screenWidth = 300;
     int screenHeight = 500;
 
     int buttonWidth = 100;
     int buttonHeight = 50;
 
-    public Button addaccounts;
+    public Button addaccount, view;
     public static String[][] database = new String[100][4];    //This is the array that stores the info until quit
     public static String string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*?-_+=~`<>,./ ";    //set string for the alphabet for encryption
     public static char[] alphabet = string.toCharArray();
@@ -32,10 +32,11 @@ public class Main extends JFrame{
 
         getContentPane().setLayout(null);
 
-        addaccounts.setBounds(screenWidth - buttonWidth - 250 + buttonWidth, screenWidth / 2, buttonWidth, buttonHeight);
+        addaccount.setBounds(5, screenWidth / 2, buttonWidth, buttonHeight);
+        view.setBounds(screenWidth - buttonWidth - 10, screenWidth/2, buttonWidth, buttonHeight);
 
-        getContentPane().add(addaccounts);
-        //getContentPane().add(hello);
+        getContentPane().add(addaccount);
+        getContentPane().add(view);
 
         reload();
         setVisible(true);
@@ -56,17 +57,22 @@ public class Main extends JFrame{
 
     public void addButtons() {
 
-        addaccounts = new Button("Add an Account");
-        //hello = new JLabel("Hello World!");
+        addaccount = new Button("Add Accounts");
+        view = new Button("View Accounts");
 
     }
 
     public void addActions() {
-        addaccounts.addActionListener(new ActionListener() {
+        addaccount.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new AddAccount();
-                reload();
+            }
+        });
+        view.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new View();
             }
         });
 
@@ -174,6 +180,7 @@ public class Main extends JFrame{
     public static void main(String[] args) {
 
        new Main();
+       //new AddAccount();
 
         try {
             write();
