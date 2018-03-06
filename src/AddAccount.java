@@ -1,3 +1,8 @@
+
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -54,6 +59,11 @@ public class AddAccount extends javax.swing.JFrame {
         setTitle("PassMan (Add Account)");
         setAlwaysOnTop(true);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         AddButton.setText("Add");
         AddButton.addActionListener(new java.awt.event.ActionListener() {
@@ -99,11 +109,23 @@ public class AddAccount extends javax.swing.JFrame {
         add();
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Main().setVisible(true);
+                Main main = new Main();
+                main.setLocationRelativeTo(null);
+                main.setVisible(true);
             }
         });
         dispose();
     }//GEN-LAST:event_AddButtonActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                Main main = new Main();
+                main.setLocationRelativeTo(null);
+                main.setVisible(true);
+            }
+        });
+    }//GEN-LAST:event_formWindowClosing
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

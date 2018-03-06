@@ -35,7 +35,7 @@ public class Launcher extends javax.swing.JFrame {
         GoButton = new javax.swing.JButton();
         password = new javax.swing.JPasswordField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Enter Your Password: ");
 
@@ -90,7 +90,9 @@ public class Launcher extends javax.swing.JFrame {
         FileData.readFile();
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Main().setVisible(true);
+                Main main = new Main();
+                main.setLocationRelativeTo(null);
+                main.setVisible(true);
             }
         });
         dispose();
@@ -126,7 +128,9 @@ public class Launcher extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Launcher().setVisible(true);
+                Launcher launcher = new Launcher();
+                launcher.setLocationRelativeTo(null);
+                launcher.setVisible(true);
             }
         });
     }

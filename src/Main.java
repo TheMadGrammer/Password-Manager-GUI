@@ -63,16 +63,21 @@ public class Main extends javax.swing.JFrame {
 //                                        }
                                         List.clearSelection();
 				} else {
-					System.out.println("Delete Stopped!");
 					break;
 				}
-				System.out.println("Delete Successful!");
 				break;
 			}
 		}
 		if (!found) {
-		    System.out.println("The account you searched for was not found.");
+		    JOptionPane.showMessageDialog(null, "The account you searched for was not found.");
         }
+                try {
+            Main.write();
+        } catch (IOException ex) {
+            Logger.getLogger(AddAccount.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        FileData.readFile();
+        List.clearSelection();
     }
     
     public static void write() throws IOException {
@@ -172,18 +177,17 @@ public class Main extends javax.swing.JFrame {
         EditButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         List = new javax.swing.JList<>();
-        ViewButton = new javax.swing.JButton();
         ExitButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("PassMan");
-
-        AddButton.setText("Add");
-        AddButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                AddButtonMouseClicked(evt);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
             }
         });
+
+        AddButton.setText("Add");
         AddButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AddButtonActionPerformed(evt);
@@ -198,6 +202,11 @@ public class Main extends javax.swing.JFrame {
         });
 
         EditButton.setText("Edit");
+        EditButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EditButtonActionPerformed(evt);
+            }
+        });
 
         List.setModel(new javax.swing.AbstractListModel<String>() {
             String[][] strings = Main.database;
@@ -205,8 +214,6 @@ public class Main extends javax.swing.JFrame {
             public String getElementAt(int i) { return strings[i][0]; }
         });
         jScrollPane1.setViewportView(List);
-
-        ViewButton.setText("View");
 
         ExitButton.setText("Exit");
         ExitButton.addActionListener(new java.awt.event.ActionListener() {
@@ -226,7 +233,6 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(AddButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(EditButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ViewButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(RemoveButton)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -242,11 +248,9 @@ public class Main extends javax.swing.JFrame {
                         .addComponent(AddButton)
                         .addGap(18, 18, 18)
                         .addComponent(RemoveButton)
-                        .addGap(25, 25, 25)
-                        .addComponent(EditButton)
                         .addGap(18, 18, 18)
-                        .addComponent(ViewButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
+                        .addComponent(EditButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 177, Short.MAX_VALUE)
                         .addComponent(ExitButton))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
@@ -261,15 +265,13 @@ public class Main extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new AddAccount().setVisible(true);
+                AddAccount account = new AddAccount();
+                account.setLocationRelativeTo(null);
+                account.setVisible(true);
             }
         });
         dispose();
     }//GEN-LAST:event_AddButtonActionPerformed
-
-    private void AddButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddButtonMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_AddButtonMouseClicked
 
     private void RemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveButtonActionPerformed
         remove();
@@ -284,6 +286,38 @@ public class Main extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_ExitButtonActionPerformed
 
+    private void EditButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditButtonActionPerformed
+        
+        ViewAccount.tempAccount = List.getSelectedValue();
+        if (List.getSelectedValue() != null) {
+            for (int i = 0; i < database.length; i++) {
+                if (database[i][0] != null && database[i][0].equals(ViewAccount.tempAccount)) {
+                    ViewAccount.tempUser = database[i][1];
+                    ViewAccount.tempPass = database[i][2];
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select an account to be updated.");
+        }
+        
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                ViewAccount view = new ViewAccount();
+                view.setLocationRelativeTo(null);
+                view.setVisible(true);
+            }
+        });
+        dispose();
+    }//GEN-LAST:event_EditButtonActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        try {
+            write();
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_formWindowClosing
+
     /**
      * @param args the command line arguments
      */
@@ -294,7 +328,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton ExitButton;
     private javax.swing.JList<String> List;
     private javax.swing.JButton RemoveButton;
-    private javax.swing.JButton ViewButton;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }
