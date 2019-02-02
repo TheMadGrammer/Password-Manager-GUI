@@ -288,26 +288,25 @@ public class Main extends javax.swing.JFrame {
 
     private void EditButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditButtonActionPerformed
         
-        ViewAccount.tempAccount = List.getSelectedValue();
+        EditAccount.tempAccount = List.getSelectedValue();
         if (List.getSelectedValue() != null) {
             for (int i = 0; i < database.length; i++) {
-                if (database[i][0] != null && database[i][0].equals(ViewAccount.tempAccount)) {
-                    ViewAccount.tempUser = database[i][1];
-                    ViewAccount.tempPass = database[i][2];
+                if (database[i][0] != null && database[i][0].equals(EditAccount.tempAccount)) {
+                    EditAccount.tempUser = database[i][1];
+                    EditAccount.tempPass = database[i][2];
                 }
             }
+            java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                EditAccount view = new EditAccount();
+                view.setLocationRelativeTo(null);
+                view.setVisible(true);
+                dispose();
+            }
+        });
         } else {
             JOptionPane.showMessageDialog(null, "Please select an account to be updated.");
         }
-        
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                ViewAccount view = new ViewAccount();
-                view.setLocationRelativeTo(null);
-                view.setVisible(true);
-            }
-        });
-        dispose();
     }//GEN-LAST:event_EditButtonActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
